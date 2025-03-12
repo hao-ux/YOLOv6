@@ -11,9 +11,9 @@ classes=["person"]
 # TRAIN_RATIO = 90表示90%训练集
 TRAIN_RATIO = 90
 # VAL_RATIO = 5表示5%验证集
-VAL_RATIO = 5
+VAL_RATIO = 10
 # TEST_RATIO = 5表示5%测试集集
-TEST_RATIO = 5
+TEST_RATIO = 0
 
 if TRAIN_RATIO + VAL_RATIO + TEST_RATIO != 100:
     # raise "TRAIN_RATIO, VAL_RATIO and TEST_RATIO is error!"
@@ -155,16 +155,16 @@ for i in range(0,len(list_imgs)):
             copyfile(label_path, yolov5_labels_train_dir + label_name)
     elif prob > TRAIN_RATIO and prob <= TRAIN_RATIO + VAL_RATIO: # val dataset
         if os.path.exists(annotation_path):
-            test_file.write(image_path + '\n')
-            convert_annotation(nameWithoutExtention) # convert label
-            copyfile(image_path, yolov5_images_test_dir + voc_path)
-            copyfile(label_path, yolov5_labels_test_dir + label_name)
-    elif prob > TRAIN_RATIO + VAL_RATIO and prob <= 100:
-        if os.path.exists(annotation_path):
             val_file.write(image_path + '\n')
             convert_annotation(nameWithoutExtention) # convert label
             copyfile(image_path, yolov5_images_val_dir + voc_path)
             copyfile(label_path, yolov5_labels_val_dir + label_name)
+    elif prob > TRAIN_RATIO + VAL_RATIO and prob <= 100:
+        if os.path.exists(annotation_path):
+            test_file.write(image_path + '\n')
+            convert_annotation(nameWithoutExtention) # convert label
+            copyfile(image_path, yolov5_images_test_dir + voc_path)
+            copyfile(label_path, yolov5_labels_test_dir + label_name)
 train_file.close()
 test_file.close()
 val_file.close()
